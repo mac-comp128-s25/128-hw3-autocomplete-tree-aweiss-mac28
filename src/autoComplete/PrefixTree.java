@@ -24,7 +24,23 @@ public class PrefixTree {
      * @param word
      */
     public void add(String word){
-        //TODO: complete me
+        ArrayList<Character> charList = convertToChar(word);
+        TreeNode traversalNode = root;
+        for(char chars:charList){
+            TreeNode newNode = new TreeNode();
+            newNode.letter = chars;
+            if(!traversalNode.children.containsKey(chars)){
+            traversalNode.children.put(newNode.letter, newNode);
+            traversalNode = traversalNode.children.get(newNode.letter);
+            }
+            else{
+                traversalNode.children.get(newNode.letter);
+            }
+        }
+        if(traversalNode.isWord==false){
+            traversalNode.isWord = true;
+            size++;
+        }
     }
 
     /**
@@ -33,8 +49,14 @@ public class PrefixTree {
      * @return true if contained in the tree.
      */
     public boolean contains(String word){
-        //TODO: complete me
-        return false;
+        TreeNode traversalNode = root;
+        ArrayList<Character> charList = convertToChar(word);
+        for(char chars:charList){
+            if(traversalNode.children.containsKey(chars)){
+                traversalNode = traversalNode.children.get(chars);
+            }
+        }
+        return traversalNode.isWord;
     }
 
     /**
@@ -45,6 +67,12 @@ public class PrefixTree {
      */
     public ArrayList<String> getWordsForPrefix(String prefix){
         //TODO: complete me
+        /*
+         * notes for later:
+         * traverse down to the place where the prefix ends
+         * for each node that exists connected to it:
+         * traverse down to the bottom of each, splitting off when necessary
+         */
         return null;
     }
 
@@ -53,6 +81,18 @@ public class PrefixTree {
      */
     public int size(){
         return size;
+    }
+    /*
+     * Converts a string into an ArrayList of characters
+     * @param word
+     * @return list of characters in word
+     */
+    private ArrayList<Character> convertToChar(String word){
+        ArrayList<Character> charList = new ArrayList<>();
+        for(int i = 0; i<word.length(); i++){
+            charList.add(word.charAt(i));
+        }
+        return charList;
     }
     
 }
